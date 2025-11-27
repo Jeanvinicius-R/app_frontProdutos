@@ -1,61 +1,35 @@
 package model;
 
 public class Produto {
-    private long id;
+    private int id;
     private String nome;
     private double preco;
-    private int estoque;
+    private int categoriaId;
 
-    public Produto() {
-    }
+    public Produto() {}
 
-    public Produto(long id, String nome, double preco, int estoque) {
+    public Produto(int id, String nome, double preco, int categoriaId) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
-        this.estoque = estoque;
+        this.categoriaId = categoriaId;
     }
 
-    public Produto(String nome, double preco, int estoque) {
+    public Produto(String nome, double preco, int categoriaId) {
         this.nome = nome;
         this.preco = preco;
-        this.estoque = estoque;
+        this.categoriaId = categoriaId;
     }
 
-    public long getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getNome() {
-        return nome;
-    }
+    public double getPreco() { return preco; }
+    public void setPreco(double preco) { this.preco = preco; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public int getEstoque() {
-        return estoque;
-    }
-
-    public void setEstoque(int estoque) {
-        this.estoque = estoque;
-    }
-
-    @Override
-    public String toString() {
-        return "Nome: " + nome + " Preço: " + preco + " Estoque: " + estoque;
-    }
+    public int getCategoriaId() { return categoriaId; }
+    public void setCategoriaId(int categoriaId) { this.categoriaId = categoriaId; }
 }
