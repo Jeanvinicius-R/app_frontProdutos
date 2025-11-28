@@ -1,0 +1,5 @@
+* { box-sizing:border-box; }
+body, html, #root { height:100%; margin:0; font-family:Inter, sans-serif; background:#f3f4f6; }
+.app-layout { display:flex; min-height:100vh; }
+.app-content { flex:1; padding:20px; overflow:auto; }
+.app-content.expanded { padding-left:40px; }

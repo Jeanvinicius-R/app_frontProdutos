@@ -1,0 +1,7 @@
+.lista-page { padding:20px; }
+.toggle { margin-bottom:12px; }
+.toggle button { margin-right:8px; padding:8px 12px; }
+.toggle .active { background:#4a4df0; color:#fff; border-radius:8px; }
+.table { width:100%; border-collapse:collapse; }
+.table th, .table td { padding:10px; border-bottom:1px solid #eee; text-align:left; }
+.table tr:hover { background:#f9fafb; }

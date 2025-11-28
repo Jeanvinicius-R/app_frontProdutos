@@ -1,0 +1,5 @@
+.modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; }
+.modal { background:#fff; padding:20px; border-radius:8px; width:320px; box-shadow:0 6px 24px rgba(0,0,0,0.2); }
+.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
+.modal button.confirm { background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:6px; }
+.modal button.cancel { background:#f3f4f6; border:none; padding:8px 12px; border-radius:6px; }

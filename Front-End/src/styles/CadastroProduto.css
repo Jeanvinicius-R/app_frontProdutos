@@ -1,0 +1,4 @@
+.produto-page { padding:20px; }
+.produto-form { display:flex; gap:12px; flex-wrap:wrap; }
+.produto-form input, .produto-form select { padding:10px; border-radius:8px; border:1px solid #ddd; min-width:180px; }
+.produto-form button { background:#10b981; color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; }
