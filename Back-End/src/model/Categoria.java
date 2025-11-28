@@ -1,23 +1,44 @@
 package model;
 
 public class Categoria {
-    private int id;
+    private Long id;
     private String nome;
 
-    public Categoria() {}
+    // Construtor vazio
+    public Categoria() {
+    }
 
-    public Categoria(int id, String nome) {
+    // Construtor com todos os parâmetros
+    public Categoria(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
+    // Construtor apenas com o parâmetro nome
     public Categoria(String nome) {
         this.nome = nome;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria [id=" + id + ", nome=" + nome + "]";
+    }
+
 }

@@ -1,95 +1,154 @@
 package dao;
 
-import java.sql.*;
-import java.util.*;
-
-import com.google.gson.JsonElement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Categoria;
 import util.ConnectionFactory;
 
 public class CategoriaDAO {
 
-    public List<Categoria> listar() {
-        List<Categoria> lista = new ArrayList<>();
-        String sql = "SELECT * FROM categoria";
+    //======================================//
+    // READ
+    //======================================//
+    public List<Categoria> buscarTodos() {
+        
+        List<Categoria> categorias = new ArrayList<>();
+
+        String sql = "SELECT * FROM categorias";
 
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();) {
+            
+            while(rs.next()) {
+                Categoria categoria = new Categoria(
+                    rs.getLong("id"),
+                    rs.getString("nome"));
+                categorias.add(categoria);
+            }
+        } catch (Exception e) {
+           System.err.println("Erro ao buscar categorias: " + e.getMessage());
+           e.printStackTrace();
+        }
+        return categorias;
+    }
 
-            while (rs.next()) {
-                lista.add(new Categoria(rs.getInt("id"), rs.getString("nome")));
+     //======================================//
+    // READ BY ID
+    //======================================//
+    public Categoria buscarPorId(Long id) {
+
+        Categoria categoria = null;
+
+        String sql = "SELECT id, nome FROM categorias WHERE id = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    categoria = new Categoria(
+                     rs.getLong("id"),
+                     rs.getString("nome"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar categoria por ID: " + id + ". Detalhes: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return categoria;
+    }
+
+
+
+    //======================================//
+    // CREATE
+    //======================================//
+    public void inserir(Categoria categoria) {
+
+        // usa Statement.RETURN_GENERATED_KEYS para solicitar o ID gerado
+        String sql = "INSERT INTO categorias (nome) VALUES (?)";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, categoria.getNome());
+
+            stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    // define o ID no objeto Produto que foi passado (importante para a API)
+                    categoria.setId(rs.getLong(1));
+                }
             }
 
-            return lista;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            System.err.println("Erro ao inserir categoria: " + categoria.getNome() + ". Detalhes: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public Categoria buscar(int id) {
-        String sql = "SELECT * FROM categoria WHERE id=?";
+    // ------------------------------------
+    // UPDATE
+    // ------------------------------------
+    public void atualizar(Categoria categoria) {
+
+        String sql = "UPDATE produtos SET nome = ? WHERE id = ?";
+
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+            // define os parâmetros (os novos valores)
+            stmt.setString(1, categoria.getNome());
+            // define o ID no WHERE (o último '?')
+            stmt.setLong(4, categoria.getId());
 
-            if (rs.next()) {
-                return new Categoria(rs.getInt("id"), rs.getString("nome"));
-            }
+            // executa a atualização
+            int linhasAfetadas = stmt.executeUpdate();
+            System.out.println("Categoria ID " + categoria.getId() + " atualizado. Linhas afetadas: " + linhasAfetadas);
 
-            return null;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar produto ID: " + categoria.getId() + ". Detalhes: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public void inserir(Categoria c) {
-        String sql = "INSERT INTO categoria (nome) VALUES (?)";
+
+    // ------------------------------------
+    // DELETE
+    // ------------------------------------
+    public void deletar(Long id) throws SQLIntegrityConstraintViolationException {
+
+        String sql = "DELETE FROM categorias WHERE id = ?";
+
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, c.getNome());
-            stmt.executeUpdate();
+            stmt.setLong(1, id);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            // executa a exclusão
+            int linhasAfetadas = stmt.executeUpdate();
+            System.out.println("Tentativa de deletar Categoria ID " + id + ". Linhas afetadas: " + linhasAfetadas);
+
+
+        } catch(SQLIntegrityConstraintViolationException e) {
+            throw new SQLIntegrityConstraintViolationException();
+        } 
+        
+        catch (SQLException e) {
+            System.err.println("Erro ao deletar categoria ID: " + id + ". Detalhes: " + e.getMessage());
+            e.printStackTrace();
+            throw new SQLIntegrityConstraintViolationException();
         }
-    }
-
-    public void atualizar(Categoria c) {
-        String sql = "UPDATE categoria SET nome=? WHERE id=?";
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, c.getNome());
-            stmt.setInt(2, c.getId());
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void deletar(int id) {
-        String sql = "DELETE FROM categoria WHERE id=?";
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public JsonElement buscarPorId(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarPorId'");
     }
 }

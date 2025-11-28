@@ -1,35 +1,83 @@
 package model;
 
 public class Produto {
-    private int id;
+
+    // atributos
+    private Long id;
     private String nome;
     private double preco;
-    private int categoriaId;
+    private int estoque;
+    private Categoria categoria;
 
-    public Produto() {}
+    // contrutor vazio (necessário para frameworks como Gson)
+    public Produto() {
+    }
 
-    public Produto(int id, String nome, double preco, int categoriaId) {
+    // construtor com todos os campos
+    public Produto(Long id, String nome, double preco, int estoque, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
-        this.categoriaId = categoriaId;
+        this.estoque = estoque;
+        this.categoria = categoria;
     }
 
-    public Produto(String nome, double preco, int categoriaId) {
+    // construtor sem o id (para inserções, onde o id é auto-gerado)
+    public Produto(String nome, double preco, int estoque, Categoria categoria) {
         this.nome = nome;
         this.preco = preco;
-        this.categoriaId = categoriaId;
+        this.estoque = estoque;
+        this.categoria = categoria;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // getters e setters
+    public Long getId() {
+        return id;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public double getPreco() { return preco; }
-    public void setPreco(double preco) { this.preco = preco; }
+    public String getNome() {
+        return nome;
+    }
 
-    public int getCategoriaId() { return categoriaId; }
-    public void setCategoriaId(int categoriaId) { this.categoriaId = categoriaId; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public int getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    // toString para facilitar a depuração
+    @Override
+    public String toString() {
+        return "Produto [id=" + id +
+                ", nome=" + nome +
+                ", preco=" + preco +
+                ", estoque=" + estoque + 
+                ", categoria=" + (categoria != null ? categoria.getNome() : "null") +"]";// Ternário para verificar se o campo categoria é nulo
+    }
 }

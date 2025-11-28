@@ -1,0 +1,23 @@
+SET NAMES 'utf8mb4';
+CREATE DATABASE IF NOT EXISTS aulajdbc;
+USE aulajdbc;
+
+CREATE TABLE IF NOT EXISTS categorias (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL
+);
+
+INSERT INTO categorias (nome) VALUES 
+('Eletrônicos'),
+('Livros'),
+('Alimentos');
+
+
+CREATE TABLE IF NOT EXISTS produtos (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    preco DOUBLE NOT NULL,
+    estoque INT NOT NULL,
+    id_categoria BIGINT,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id)
+);
