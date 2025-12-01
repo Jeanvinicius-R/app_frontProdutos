@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS produtos (
 
 2.2. Configuração de Acesso ao MySQL no Back-End
 
-No arquivo Conexao.java:
+No arquivo ConnectionFactory.java
 
 private static final String URL = "jdbc:mysql://localhost:3306/aulajdbc";
 private static final String USUARIO = "root";
@@ -90,13 +90,12 @@ O Back-End fica dentro da pasta:
 
 Necessário ter Java 17 e Maven instalados.
 
-Rodar:
 
-mvn clean install
 
 3.2. Iniciar o servidor
-mvn exec:java
+Iniciar o arquivo com nome API.java 
 
+Da um Run java para rodar o servidor.
 
 Se estiver tudo correto, o console exibirá algo como:
 
