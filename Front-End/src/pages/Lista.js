@@ -11,6 +11,23 @@ export default function Lista() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 🔥 FORMATA PREÇO EM R$ 450.000.00
+  function formatarReais(valor) {
+    if (!valor) return "R$ 0.00";
+
+    let numero = Number(valor);
+
+    let formatado = numero.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    // trocar vírgula por ponto
+    formatado = formatado.replace(",", ".");
+
+    return "R$ " + formatado;
+  }
+
   // Carregar dados
   const carregar = async () => {
     try {
@@ -67,6 +84,7 @@ export default function Lista() {
         >
           Produtos
         </button>
+
         <button
           className={view === "categorias" ? "active" : ""}
           onClick={() => setView("categorias")}
@@ -86,12 +104,16 @@ export default function Lista() {
               <th>Ações</th>
             </tr>
           </thead>
+
           <tbody>
             {produtos.map((p) => (
               <tr key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.nome}</td>
-                <td>R$ {Number(p.preco).toFixed(2)}</td>
+
+                {/* 🔥 AQUI A FORMATAÇÃO FINAL */}
+                <td>{formatarReais(p.preco)}</td>
+
                 <td>{p.categoria?.nome || "Sem categoria"}</td>
                 <td>
                   <button onClick={() => editarProduto(p.id)}>Editar</button>
@@ -110,6 +132,7 @@ export default function Lista() {
               <th>Ações</th>
             </tr>
           </thead>
+
           <tbody>
             {categorias.map((c) => (
               <tr key={c.id}>
