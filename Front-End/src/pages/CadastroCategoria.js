@@ -1,92 +1,65 @@
-// src/pages/CadastroCategoria.js
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 import "../styles/CadastroCategoria.css";
 
 export default function CadastroCategoria() {
-  const [categorias, setCategorias] = useState([]);
-  const [novoNome, setNovoNome] = useState("");
-  const [editandoId, setEditandoId] = useState(null);
-  const [nomeEmEdicao, setNomeEmEdicao] = useState("");
+  const [nome, setNome] = useState("");
+  const [editando, setEditando] = useState(false);
 
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Carrega categoria ao editar
   useEffect(() => {
-    carregar();
-  }, []);
+    if (id) {
+      setEditando(true);
+      const carregarCategoria = async () => {
+        try {
+          const c = await api.buscarCategoria(id);
+          if (!c) throw new Error("Categoria não encontrada");
+          setNome(c.nome);
+        } catch (err) {
+          console.error(err);
+          alert("Erro ao carregar categoria");
+          navigate("/lista");
+        }
+      };
+      carregarCategoria();
+    }
+  }, [id, navigate]);
 
-  const carregar = async () => {
+  // Enviar (criar ou atualizar)
+  const enviar = async (e) => {
+    e.preventDefault();
     try {
-      const dados = await api.listarCategorias();
-      setCategorias(dados || []);
+      if (editando) {
+        await api.atualizarCategoria(id, { nome });
+        alert("Categoria atualizada!");
+      } else {
+        await api.criarCategoria({ nome });
+        alert("Categoria criada!");
+      }
+      navigate("/lista");
     } catch (err) {
       console.error(err);
-      alert("Erro ao carregar categorias");
-    }
-  };
-
-  const adicionar = async (e) => {
-    e.preventDefault();
-    if (!novoNome.trim()) return;
-    try {
-      await api.criarCategoria({ nome: novoNome });
-      setNovoNome("");
-      carregar();
-    } catch {
-      alert("Erro ao criar");
-    }
-  };
-
-  const salvar = async (id) => {
-    if (!nomeEmEdicao.trim()) return;
-    try {
-      await api.atualizarCategoria(id, { id, nome: nomeEmEdicao });
-      setEditandoId(null);
-      setNomeEmEdicao("");
-      carregar();
-    } catch {
-      alert("Erro ao atualizar");
-    }
-  };
-
-  const excluir = async (id) => {
-    if (!window.confirm("Confirma exclusão?")) return;
-    try {
-      await api.deletarCategoria(id);
-      carregar();
-    } catch (err) {
-      alert("Erro ao excluir, pode haver produtos vinculados.");
+      alert("Erro ao salvar categoria");
     }
   };
 
   return (
     <div className="categoria-page">
-      <h2>Gerenciar Categorias</h2>
-
-      <form onSubmit={adicionar} className="categoria-form">
-        <input value={novoNome} onChange={(e)=>setNovoNome(e.target.value)} placeholder="Nome da categoria" />
-        <button type="submit">Adicionar</button>
+      <h2>{editando ? "Editar Categoria" : "Cadastrar Categoria"}</h2>
+      <form onSubmit={enviar}>
+        <input
+          type="text"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder="Nome da categoria"
+          required
+        />
+        <button type="submit">{editando ? "Salvar Alterações" : "Cadastrar"}</button>
       </form>
-
-      <ul className="categoria-list">
-        {categorias.map(c => (
-          <li key={c.id}>
-            {editandoId === c.id ? (
-              <>
-                <input value={nomeEmEdicao} onChange={(e)=>setNomeEmEdicao(e.target.value)} />
-                <button onClick={()=>salvar(c.id)}>Salvar</button>
-                <button onClick={()=>setEditandoId(null)}>Cancelar</button>
-              </>
-            ) : (
-              <>
-                <span>{c.nome}</span>
-                <div className="acoes">
-                  <button onClick={()=> { setEditandoId(c.id); setNomeEmEdicao(c.nome); }}>Editar</button>
-                  <button onClick={()=>excluir(c.id)}>Excluir</button>
-                </div>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

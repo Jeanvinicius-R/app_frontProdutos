@@ -103,25 +103,23 @@ public class CategoriaDAO {
     // ------------------------------------
     public void atualizar(Categoria categoria) {
 
-        String sql = "UPDATE produtos SET nome = ? WHERE id = ?";
-
+        String sql = "UPDATE categorias SET nome = ? WHERE id = ?";
+    
         try (Connection conn = ConnectionFactory.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            // define os parâmetros (os novos valores)
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
             stmt.setString(1, categoria.getNome());
-            // define o ID no WHERE (o último '?')
-            stmt.setLong(4, categoria.getId());
-
-            // executa a atualização
+            stmt.setLong(2, categoria.getId());
+    
             int linhasAfetadas = stmt.executeUpdate();
-            System.out.println("Categoria ID " + categoria.getId() + " atualizado. Linhas afetadas: " + linhasAfetadas);
-
+            System.out.println("Categoria ID " + categoria.getId() + " atualizada. Linhas afetadas: " + linhasAfetadas);
+    
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar produto ID: " + categoria.getId() + ". Detalhes: " + e.getMessage());
+            System.err.println("Erro ao atualizar categoria ID: " + categoria.getId() + ". Detalhes: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
 
 
     // ------------------------------------

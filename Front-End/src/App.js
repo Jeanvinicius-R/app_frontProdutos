@@ -18,11 +18,21 @@ function App() {
     <Router>
       <div className="app-layout">
         <Sidebar minimized={minimized} setMinimized={setMinimized} />
+
         <main className={`app-content ${minimized ? "expanded" : ""}`}>
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* CATEGORIA */}
             <Route path="/categoria" element={<CadastroCategoria />} />
+            <Route path="/categoria/editar/:id" element={<CadastroCategoria />} /> 
+            {/*  ✅ ESTA ROTA FALTAVA  */}
+
+            {/* PRODUTOS */}
             <Route path="/produto" element={<CadastroProduto />} />
+            <Route path="/produto/editar/:id" element={<CadastroProduto />} />
+
+            {/* LISTA */}
             <Route path="/lista" element={<Lista />} />
           </Routes>
         </main>

@@ -1,5 +1,5 @@
-// src/pages/Lista.js
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../api";
 import "../styles/Lista.css";
 
@@ -8,10 +8,10 @@ export default function Lista() {
   const [produtos, setProdutos] = useState([]);
   const [categorias, setCategorias] = useState([]);
 
-  useEffect(()=> {
-    carregar();
-  }, [view]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  // Carregar dados
   const carregar = async () => {
     try {
       if (view === "produtos") {
@@ -21,39 +21,81 @@ export default function Lista() {
         const d = await api.listarCategorias();
         setCategorias(d || []);
       }
-    } catch(err) { console.error(err) }
+    } catch (err) {
+      console.error("Erro ao carregar:", err);
+    }
   };
 
+  // Sempre que muda view ou rota
+  useEffect(() => {
+    carregar();
+  }, [view, location.pathname]);
+
+  // Produtos
+  const editarProduto = (id) => navigate(`/produto/editar/${id}`);
   const excluirProduto = async (id) => {
-    if(!window.confirm("Excluir produto?")) return;
-    try { await api.deletarProduto(id); carregar(); } catch { alert("Erro ao excluir"); }
+    if (!window.confirm("Excluir produto?")) return;
+    try {
+      await api.deletarProduto(id);
+      carregar();
+    } catch {
+      alert("Erro ao excluir produto");
+    }
   };
 
+  // Categorias
+  const editarCategoria = (id) => navigate(`/categoria/editar/${id}`);
   const excluirCategoria = async (id) => {
-    if(!window.confirm("Excluir categoria?")) return;
-    try { await api.deletarCategoria(id); carregar(); } catch { alert("Erro: pode ter produtos"); }
+    if (!window.confirm("Excluir categoria?")) return;
+    try {
+      await api.deletarCategoria(id);
+      carregar();
+    } catch {
+      alert("Erro: pode haver produtos usando essa categoria");
+    }
   };
 
   return (
     <div className="lista-page">
       <h2>Listagem</h2>
+
+      {/* Toggle Produtos / Categorias */}
       <div className="toggle">
-        <button className={view==="produtos"?"active":""} onClick={()=>setView("produtos")}>Produtos</button>
-        <button className={view==="categorias"?"active":""} onClick={()=>setView("categorias")}>Categorias</button>
+        <button
+          className={view === "produtos" ? "active" : ""}
+          onClick={() => setView("produtos")}
+        >
+          Produtos
+        </button>
+        <button
+          className={view === "categorias" ? "active" : ""}
+          onClick={() => setView("categorias")}
+        >
+          Categorias
+        </button>
       </div>
 
-      {view==="produtos" ? (
+      {view === "produtos" ? (
         <table className="table">
-          <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Ações</th></tr></thead>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Categoria</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
           <tbody>
-            {produtos.map(p => (
+            {produtos.map((p) => (
               <tr key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.nome}</td>
                 <td>R$ {Number(p.preco).toFixed(2)}</td>
+                <td>{p.categoria?.nome || "Sem categoria"}</td>
                 <td>
-                  <button>Editar</button>
-                  <button onClick={()=>excluirProduto(p.id)}>Excluir</button>
+                  <button onClick={() => editarProduto(p.id)}>Editar</button>
+                  <button onClick={() => excluirProduto(p.id)}>Excluir</button>
                 </td>
               </tr>
             ))}
@@ -61,15 +103,21 @@ export default function Lista() {
         </table>
       ) : (
         <table className="table">
-          <thead><tr><th>ID</th><th>Nome</th><th>Ações</th></tr></thead>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
           <tbody>
-            {categorias.map(c => (
+            {categorias.map((c) => (
               <tr key={c.id}>
                 <td>{c.id}</td>
                 <td>{c.nome}</td>
                 <td>
-                  <button>Editar</button>
-                  <button onClick={()=>excluirCategoria(c.id)}>Excluir</button>
+                  <button onClick={() => editarCategoria(c.id)}>Editar</button>
+                  <button onClick={() => excluirCategoria(c.id)}>Excluir</button>
                 </td>
               </tr>
             ))}

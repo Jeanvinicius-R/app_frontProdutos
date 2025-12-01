@@ -1,14 +1,80 @@
+/* Sidebar container */
 .sidebar {
-  width: 240px;
-  background: #111827;
-  color: white;
-  padding: 18px;
-  min-height: 100vh;
-  transition: width .25s ease;
+  width: 250px;
+  height: 100vh;
+  background: #1e293b;
+  color: #fff;
+  padding: 15px 10px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  z-index: 10;
 }
-.sidebar.minimized { width: 72px; }
-.sidebar .toggle { width:100%; margin-bottom:12px; background:#1f2937; color:white; border:none; padding:10px; cursor:pointer; border-radius:6px;}
-.sidebar nav ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
-.sidebar nav a { color:white; text-decoration:none; padding:10px; display:block; border-radius:8px; background:#111827; }
-.sidebar nav a:hover { background:#1f2937; }
-.sidebar.minimized nav a { text-align:center; font-size:18px; padding:10px 0; }
+
+/* Sidebar minimizada */
+.sidebar.minimized {
+  width: 70px;
+}
+
+/* Botão de abrir/fechar */
+.toggle-btn {
+  background: #0f172a;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* NAV */
+.sidebar nav {
+  flex: 1;
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+}
+
+.sidebar a {
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  text-decoration: none;
+  color: #e2e8f0;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.sidebar a:hover {
+  background: #1e40af;
+}
+
+/* Ícones */
+.icon {
+  font-size: 20px;
+  width: 30px;
+  text-align: center;
+}
+
+/* Some o texto quando sidebar minimizada */
+.sidebar.minimized .text {
+  display: none;
+}
+
+/* Centraliza os ícones no modo minimizado */
+.sidebar.minimized a {
+  justify-content: center;
+}
