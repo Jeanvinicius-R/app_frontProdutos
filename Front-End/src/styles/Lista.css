@@ -1,94 +1,322 @@
-.lista-container {
-  padding: 20px;
+/* ========================================
+   PÁGINA DE LISTAGEM - DESIGN MODERNO
+   ======================================== */
+
+.lista-page {
+  padding: 30px;
+  animation: fadeIn 0.4s ease;
 }
 
-.titulo {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #1d3a75;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Tabs para trocar entre lista de produtos/categorias */
-.tabs {
+.lista-page h2 {
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* ========================================
+   TOGGLE PRODUTOS / CATEGORIAS
+   ======================================== */
+
+.toggle {
   display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 35px;
 }
 
-.tab-btn {
-  padding: 8px 16px;
-  background: #e0e7ff;
-  border-radius: 8px;
-  color: #1d3a75;
-  font-weight: 500;
-  border: 1px solid #b4c4ff;
-  transition: 0.2s;
-}
-
-.tab-btn:hover {
-  background: #c9d7ff;
-}
-
-.tab-btn.active {
-  background: #1d3a75;
-  color: white;
-}
-
-/* Tabela */
-.table-container {
+.toggle button {
+  padding: 12px 30px;
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  color: #64748b;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+.toggle button:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.toggle button.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ========================================
+   TABELA
+   ======================================== */
 
 .table {
   width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border-collapse: collapse;
 }
 
-.table thead tr {
-  background: #1d3a75;
-  color: white;
+/* ========================================
+   CABEÇALHO DA TABELA
+   ======================================== */
+
+.table thead {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
 
-.table thead th {
-  padding: 12px;
+.table thead tr th {
+  padding: 16px 20px;
   text-align: left;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
+/* Centraliza título da última coluna (Ações) */
+.table thead tr th:last-child {
+  text-align: center;
+}
+
+/* ========================================
+   CORPO DA TABELA
+   ======================================== */
 
 .table tbody tr {
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: #f8fafc;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
 }
 
 .table tbody td {
-  padding: 12px;
+  padding: 15px 20px;
+  color: #334155;
+  font-size: 14px;
+}
+
+/* ID em destaque */
+.table tbody td:first-child {
+  font-weight: 700;
+  color: #3b82f6;
   font-size: 15px;
 }
 
-/* Botões */
-.btn {
-  padding: 6px 12px;
-  font-size: 14px;
+/* ========================================
+   BADGE DE ESTOQUE (NOVO!)
+   ======================================== */
+
+.badge-estoque {
+  display: inline-block;
+  padding: 6px 14px;
   border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  min-width: 50px;
+}
+
+/* Estoque alto (> 10) */
+.badge-estoque.alto {
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
-  margin-right: 8px;
-  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.btn.editar {
-  background: #4f79ff;
+/* Estoque médio (1-10) */
+.badge-estoque.medio {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.btn.editar:hover {
-  background: #375fde;
+/* Estoque baixo (0) */
+.badge-estoque.baixo {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  animation: pulse 2s infinite;
 }
 
-.btn.excluir {
-  background: #f65252;
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
-.btn.excluir:hover {
-  background: #d94141;
+/* ========================================
+   BOTÕES (GERAL)
+   ======================================== */
+
+.btn-editar,
+.btn-excluir {
+  padding: 8px 17px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Editar */
+.btn-editar {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.btn-editar:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Excluir */
+.btn-excluir {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-excluir:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ========================================
+   COLUNA AÇÕES - LAYOUT CORRETO (GLOBAL)
+   ======================================== */
+
+.col-acoes {
+  width: 160px; /* largura fixa para manter alinhamento */
+  text-align: center !important;
+  padding: 0 12px; /* reduz padding vertical nessa coluna */
+}
+
+.col-acoes .acoes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* se quiser ícones pequenos dentro dos botões */
+.col-acoes .acoes-container button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .lista-page {
+    padding: 24px;
+  }
+
+  .table thead tr th,
+  .table tbody td {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .lista-page {
+    padding: 20px 15px;
+  }
+
+  .toggle {
+    flex-direction: column;
+  }
+
+  .toggle button {
+    width: 100%;
+  }
+
+  .table {
+    font-size: 12px;
+  }
+
+  .table thead tr th,
+  .table tbody td {
+    padding: 12px 10px;
+  }
+
+  /* no mobile, botões ficam em coluna e ocupam largura */
+  .col-acoes {
+    width: 140px;
+    padding: 8px;
+  }
+
+  .col-acoes .acoes-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-editar,
+  .btn-excluir {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 12px;
+  }
+}
+
+/* ========================================
+   TABELA VAZIA
+   ======================================== */
+
+.table tbody tr td[colspan] {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.table tbody:empty::after {
+  content: "Nenhum registro encontrado";
+  display: block;
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+  font-style: italic;
 }

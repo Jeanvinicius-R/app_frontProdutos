@@ -1,4 +1,80 @@
-.produto-page { padding:20px; }
-.produto-form { display:flex; gap:12px; flex-wrap:wrap; }
-.produto-form input, .produto-form select { padding:10px; border-radius:8px; border:1px solid #ddd; min-width:180px; }
-.produto-form button { background:#10b981; color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; }
+/* ========================================
+PÁGINA DE CADASTRO DE PRODUTO
+======================================== */
+
+.produto-page {
+padding: 40px;
+max-width: 650px;
+margin: auto;
+animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.produto-page h2 {
+text-align: center;
+color: #1e293b;
+font-size: 28px;
+font-weight: 700;
+margin-bottom: 30px;
+}
+
+/* ========================================
+FORMULÁRIO
+======================================== */
+
+.produto-form {
+background: white;
+padding: 30px;
+border-radius: 15px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.produto-form input,
+.produto-form select {
+padding: 14px 18px;
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+font-size: 15px;
+transition: all 0.3s ease;
+background: #f8fafc;
+}
+
+.produto-form input:focus,
+.produto-form select:focus {
+border-color: #3b82f6;
+box-shadow: 0 0 8px rgba(59,130,246,0.3);
+outline: none;
+}
+
+/* Botão */
+.produto-form button {
+padding: 14px;
+font-size: 16px;
+border: none;
+border-radius: 10px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.3s;
+color: white;
+background: linear-gradient(135deg, #3b82f6, #2563eb);
+box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+}
+
+.produto-form button:hover {
+transform: translateY(-2px);
+background: linear-gradient(135deg, #2563eb, #1d4ed8);
+box-shadow: 0 6px 18px rgba(59,130,246,0.5);
+}
+
+@media (max-width: 600px) {
+.produto-page {
+padding: 20px;
+}
+}

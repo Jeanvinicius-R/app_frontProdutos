@@ -1,17 +1,18 @@
-/* Sidebar container */
+/* ========================================
+   SIDEBAR - DESIGN MODERNO
+   ======================================== */
+
 .sidebar {
-  width: 250px;
-  height: 100vh;
-  background: #1e293b;
-  color: #fff;
-  padding: 15px 10px;
   position: fixed;
   left: 0;
   top: 0;
-  display: flex;
-  flex-direction: column;
-  transition: width 0.3s ease;
-  z-index: 10;
+  height: 100vh;
+  width: 250px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  overflow: hidden;
 }
 
 /* Sidebar minimizada */
@@ -19,62 +20,249 @@
   width: 70px;
 }
 
-/* Botão de abrir/fechar */
+/* ========================================
+   BOTÃO DE TOGGLE
+   ======================================== */
+
 .toggle-btn {
-  background: #0f172a;
-  border: none;
+  position: relative;
+  top: 0px;
+  right: -20px;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: 3px solid #1e293b;
+  border-radius: 100%;
   color: white;
-  font-size: 20px;
-  padding: 10px;
+  font-size: 12px;
   cursor: pointer;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-/* NAV */
-.sidebar nav {
-  flex: 1;
-}
-
-.sidebar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.sidebar li {
-  margin: 10px 0;
-}
-
-.sidebar a {
-  background: #0f172a;
   display: flex;
   align-items: center;
-  padding: 12px;
-  text-decoration: none;
-  color: #e2e8f0;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.sidebar a:hover {
-  background: #1e40af;
-}
-
-/* Ícones */
-.icon {
-  font-size: 20px;
-  width: 30px;
-  text-align: center;
-}
-
-/* Some o texto quando sidebar minimizada */
-.sidebar.minimized .text {
-  display: none;
-}
-
-/* Centraliza os ícones no modo minimizado */
-.sidebar.minimized a {
   justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  z-index: 10;
+}
+
+.toggle-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+}
+
+.toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* ========================================
+   LOGO/TÍTULO
+   ======================================== */
+
+.sidebar::before {
+  content: "CRUD";
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #3b82f6;
+  padding: 30px 0 20px;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 10px rgba(59, 130, 246, 0.5);
+  transition: all 0.3s ease;
+}
+
+.sidebar.minimized::before {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+/* ========================================
+   NAVEGAÇÃO
+   ======================================== */
+
+.sidebar nav {
+  padding: 20px 0;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav li {
+  margin: 8px 12px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* Efeito de hover animado */
+.sidebar nav a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar nav a:hover::before {
+  transform: scaleY(1);
+}
+
+.sidebar nav a:hover {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  transform: translateX(5px);
+}
+
+/* Link ativo */
+.sidebar nav a.active,
+.sidebar nav a:active {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+  color: #60a5fa;
+  box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+/* ========================================
+   ÍCONES E TEXTO
+   ======================================== */
+
+.sidebar nav .icon {
+  font-size: 22px;
+  min-width: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sidebar nav .text {
+  margin-left: 15px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+/* Quando minimizada */
+.sidebar.minimized nav .text {
+  opacity: 0;
+  width: 0;
+  margin-left: 0;
+  overflow: hidden;
+}
+
+.sidebar.minimized nav a {
+  justify-content: center;
+  padding: 14px;
+}
+
+/* Animação do ícone ao hover */
+.sidebar nav a:hover .icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* ========================================
+   TOOLTIP PARA SIDEBAR MINIMIZADA
+   ======================================== */
+
+.sidebar.minimized nav a {
+  position: relative;
+}
+
+.sidebar.minimized nav a::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);
+  background: #1e293b;
+  color: #60a5fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.sidebar.minimized nav a:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ========================================
+   SCROLLBAR CUSTOMIZADA
+   ======================================== */
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.sidebar {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px;
+  }
+  
+  .sidebar nav .text {
+    opacity: 0;
+    width: 0;
+  }
+  
+  .toggle-btn {
+    display: none;
+  }
 }

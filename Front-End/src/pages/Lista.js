@@ -11,24 +11,20 @@ export default function Lista() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔥 FORMATA PREÇO EM R$ 450.000.00
+  // 🔥 Formatar preço para R$ 0.00
   function formatarReais(valor) {
     if (!valor) return "R$ 0.00";
 
     let numero = Number(valor);
-
     let formatado = numero.toLocaleString("pt-BR", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
-    // trocar vírgula por ponto
-    formatado = formatado.replace(",", ".");
-
     return "R$ " + formatado;
   }
 
-  // Carregar dados
+  // Carregar dados conforme a view
   const carregar = async () => {
     try {
       if (view === "produtos") {
@@ -43,7 +39,6 @@ export default function Lista() {
     }
   };
 
-  // Sempre que muda view ou rota
   useEffect(() => {
     carregar();
   }, [view, location.pathname]);
@@ -76,7 +71,7 @@ export default function Lista() {
     <div className="lista-page">
       <h2>Listagem</h2>
 
-      {/* Toggle Produtos / Categorias */}
+      {/* Toggle */}
       <div className="toggle">
         <button
           className={view === "produtos" ? "active" : ""}
@@ -93,6 +88,9 @@ export default function Lista() {
         </button>
       </div>
 
+      {/* =============================
+          LISTAGEM DE PRODUTOS
+         ============================= */}
       {view === "produtos" ? (
         <table className="table">
           <thead>
@@ -110,20 +108,33 @@ export default function Lista() {
               <tr key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.nome}</td>
-
-                {/* 🔥 AQUI A FORMATAÇÃO FINAL */}
                 <td>{formatarReais(p.preco)}</td>
-
                 <td>{p.categoria?.nome || "Sem categoria"}</td>
-                <td>
-                  <button onClick={() => editarProduto(p.id)}>Editar</button>
-                  <button onClick={() => excluirProduto(p.id)}>Excluir</button>
+
+                <td className="col-acoes">
+                  <div className="acoes-container">
+                    <button
+                      className="btn-editar"
+                      onClick={() => editarProduto(p.id)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-excluir"
+                      onClick={() => excluirProduto(p.id)}
+                    >
+                      Excluir
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
+        /* =============================
+            LISTAGEM DE CATEGORIAS
+           ============================= */
         <table className="table">
           <thead>
             <tr>
@@ -138,9 +149,22 @@ export default function Lista() {
               <tr key={c.id}>
                 <td>{c.id}</td>
                 <td>{c.nome}</td>
-                <td>
-                  <button onClick={() => editarCategoria(c.id)}>Editar</button>
-                  <button onClick={() => excluirCategoria(c.id)}>Excluir</button>
+
+                <td className="col-acoes">
+                  <div className="acoes-container">
+                    <button
+                      className="btn-editar"
+                      onClick={() => editarCategoria(c.id)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-excluir"
+                      onClick={() => excluirCategoria(c.id)}
+                    >
+                      Excluir
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

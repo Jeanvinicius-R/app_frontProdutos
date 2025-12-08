@@ -1,107 +1,77 @@
-/* Página de categorias */
+/* ========================================
+PÁGINA DE CADASTRO DE CATEGORIA
+======================================== */
+
 .categoria-page {
-  padding: 24px;
-  font-family: "Inter", sans-serif;
-  color: #1e2a47;
+padding: 40px;
+max-width: 600px;
+margin: auto;
+animation: fadeIn 0.4s ease;
 }
 
-/* Formulário */
-.categoria-form {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 22px;
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
 }
 
-.categoria-form input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1.5px solid #cfd7e3;
-  background: #f9fbff;
-  transition: 0.2s;
+.categoria-page h2 {
+text-align: center;
+color: #1e293b;
+font-size: 28px;
+font-weight: 700;
+margin-bottom: 30px;
 }
 
-.categoria-form input:focus {
-  border-color: #3d63dd;
-  box-shadow: 0 0 0 3px rgba(61, 99, 221, 0.15);
-  outline: none;
+/* ========================================
+FORMULÁRIO
+======================================== */
+
+.categoria-page form {
+background: white;
+padding: 30px;
+border-radius: 15px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+display: flex;
+flex-direction: column;
+gap: 20px;
 }
 
-.categoria-form button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #3d63dd;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
+.categoria-page input {
+padding: 14px 18px;
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+font-size: 15px;
+transition: all 0.3s ease;
 }
 
-.categoria-form button:hover {
-  background: #2f4fd0;
-  transform: translateY(-1px);
+.categoria-page input:focus {
+border-color: #3b82f6;
+box-shadow: 0 0 8px rgba(59,130,246,0.3);
+outline: none;
 }
 
-.categoria-form button:active {
-  transform: scale(0.97);
+/* Botão */
+.categoria-page button {
+padding: 14px;
+font-size: 16px;
+border: none;
+border-radius: 10px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.3s;
+color: white;
+background: linear-gradient(135deg, #3b82f6, #2563eb);
+box-shadow: 0 4px 12px rgba(59,130,246,0.3);
 }
 
-/* Lista de categorias */
-.categoria-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.categoria-page button:hover {
+transform: translateY(-2px);
+background: linear-gradient(135deg, #2563eb, #1d4ed8);
+box-shadow: 0 6px 18px rgba(59,130,246,0.5);
 }
 
-/* Item da lista */
-.categoria-list li {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #e3e8ef;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-  transition: 0.2s;
+@media (max-width: 600px) {
+.categoria-page {
+padding: 20px;
 }
-
-.categoria-list li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-}
-
-/* Botões da lista */
-.acoes button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #fff;
-  font-size: 14px;
-  transition: 0.2s;
-  margin-left: 8px;
-  font-weight: 600;
-}
-
-/* Botão editar */
-.acoes .editar {
-  background: #3d63dd;
-}
-
-.acoes .editar:hover {
-  background: #2f4fd0;
-}
-
-/* Botão excluir */
-.acoes .excluir {
-  background: #d64545;
-}
-
-.acoes .excluir:hover {
-  background: #b73737;
 }

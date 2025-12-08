@@ -4,18 +4,21 @@ import api from "../api";
 import "../styles/CadastroProduto.css";
 
 export default function CadastroProduto() {
-  const { id } = useParams();            // <- pega id da edição
-  const navigate = useNavigate();        // <- para voltar após editar
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [form, setForm] = useState({ nome: "", preco: "", id_categoria: "" });
+  const [form, setForm] = useState({
+    nome: "",
+    preco: "",
+    id_categoria: "",
+    estoque: ""
+  });
+
   const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     carregarCategorias();
-
-    if (id) {
-      carregarProdutoParaEdicao(id);
-    }
+    if (id) carregarProdutoParaEdicao(id);
   }, [id]);
 
   const carregarCategorias = async () => {
@@ -34,7 +37,8 @@ export default function CadastroProduto() {
       setForm({
         nome: p.nome,
         preco: p.preco,
-        id_categoria: p.categoria?.id || ""
+        id_categoria: p.categoria?.id || "",
+        estoque: p.estoque || ""   // <-- ADICIONADO
       });
     } catch (err) {
       console.error("Erro ao carregar produto para edição:", err);
@@ -52,6 +56,7 @@ export default function CadastroProduto() {
     const payload = {
       nome: form.nome,
       preco: parseFloat(form.preco),
+      estoque: parseInt(form.estoque, 10),  // <-- ADICIONADO
       categoria: { id: parseInt(form.id_categoria, 10) }
     };
 
@@ -63,8 +68,7 @@ export default function CadastroProduto() {
         await api.criarProduto(payload);
         alert("Produto criado!");
       }
-
-      navigate("/lista"); // voltar para lista após salvar
+      navigate("/lista");
     } catch (err) {
       console.error("Erro ao salvar:", err);
       alert("Erro ao salvar produto");
@@ -76,6 +80,7 @@ export default function CadastroProduto() {
       <h2>{id ? "Editar Produto" : "Cadastrar Produto"}</h2>
 
       <form onSubmit={enviar} className="produto-form">
+
         <input
           name="nome"
           value={form.nome}
@@ -87,10 +92,19 @@ export default function CadastroProduto() {
         <input
           name="preco"
           type="number"
+          step="0.01"
           value={form.preco}
           onChange={handleChange}
           placeholder="Preço"
-          step="0.01"
+          required
+        />
+        <input
+          name="estoque"
+          type="number"
+          min="0"
+          value={form.estoque}
+          onChange={handleChange}
+          placeholder="Quantidade em estoque"
           required
         />
 
@@ -108,7 +122,9 @@ export default function CadastroProduto() {
           ))}
         </select>
 
-        <button type="submit">{id ? "Salvar Alterações" : "Cadastrar"}</button>
+        <button type="submit">
+          {id ? "Salvar Alterações" : "Cadastrar"}
+        </button>
       </form>
     </div>
   );
